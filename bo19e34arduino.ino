@@ -1,12 +1,36 @@
-#include <Wire.h>
+//#include <Wire.h>
 #include <RTClib.h>	
 #include <SPI.h>
 #include <SD.h>
+#include <SDhandler.h>
+#include <RTChandler.h>
 
 #define fileName  "fil.txt"
 
-RTC_DS1307 rtc;
-File file;
+const int pin = 7;
+int SDpin = 10;
+RTChandler rtchandler;
+SDhandler sdhandler;
+
+
+String measure(String inputString)
+{
+	unsigned int time = inputString.substring(1, inputString.length - 1).toInt();
+	Serial.println(time);
+	int startTime = millis();
+	int count = 0;
+	unsigned long duration;
+	unsigned long avgLenght = 0;
+	String ret = getTheDate();
+
+	while ((unsigned long)(millis() - millis()) <= time)
+	{
+		duration = pulseIn(pin,HIGH);
+		Serial.println(count);
+	}
+
+	return ret + ": " + count;
+}
 
 
 /*
@@ -15,19 +39,18 @@ File file;
 		DO ->	pin 12
 		DI ->	pin 11
 		CS ->	pin 10
-
-	RTC
-		SCL ->	A5
-		SDA ->	A4
+					
+	RTC				
+		SCL ->	A5	
+		SDA ->	A4	
 
 */
+
 void setup() {
 
 	Serial.begin(9600);
-	SD.begin(10);
-	if (!rtc.begin())
-		Serial.println("Could not find RTC");
-	//rtc.adjust(DateTime(2019, 2, 8, 18, 30, 0));
+	
+	
 }
 
 void loop() {
@@ -35,13 +58,15 @@ void loop() {
 	if (Serial.available())
 	{
 		String inputString = Serial.readStringUntil('#');
-
+		Serial.println(inputString);
 		char command = inputString.charAt(0);
-		if (command == 'w') writeToCard();
-		else if (command == 'r') readFromCard();
-		else if (command == 'e') SD.remove(fileName);
-		else if (command == 'c') adjustClock(inputString);
+		if (command == 'w') writeToCard(getTheDate()); // w# skriver tidspunktet nå til SD
+		else if (command == 'r') readFromCard(); // r# sender all data på SD over seriell
+		else if (command == 'e') SD.remove(fileName); // e# sletter SD kort filen
+		else if (command == 'c') adjustClock(inputString); // c20190219120800# gir 19.02.1997 12:09:00
+		else if (command == 'm') measure(inputString); //m60000# måler i 60 sekunder
 	}
+	
 }
 
 void readFromCard()
@@ -54,16 +79,14 @@ void readFromCard()
 	file.close();
 }
 
-void writeToCard()
+void writeToCard(String message)
 {
 	Serial.print("Saving: ");
 	file = SD.open(fileName, FILE_WRITE);
 
-	Serial.println(getTheDate());
-	file.println(getTheDate());
+	Serial.println(message);
+	file.println(message);
 	file.close();
-
-
 }
 
 void adjustClock(String inputString)
@@ -80,8 +103,7 @@ void adjustClock(String inputString)
 
 String getTheDate()
 {
-	String string = "";
-	char buffer[2];
+	String string("");
 	DateTime now = rtc.now();
 	string += now.day();
 	string += '/';
@@ -96,3 +118,4 @@ String getTheDate()
 	string += now.second();
 	return string;
 }
+
