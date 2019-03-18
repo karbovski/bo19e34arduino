@@ -9,7 +9,8 @@
 class SDhandler
 {
 	public:
-		SDhandler(int pin);
+		SDhandler();
+		void Begin(int pin);
 		void ReadFromCard(String fileName);
 		void WriteToCard(String string,String filename);
 	private:

@@ -4,7 +4,7 @@
 
 RTChandler::RTChandler()
 {
-	//rtc.begin();
+	rtc.begin();
 }
 
 String RTChandler::GetTheDate()

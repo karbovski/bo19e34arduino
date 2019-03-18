@@ -1,16 +1,22 @@
 #include "Arduino.h"
-#include <SPI.h>
 #include <SD.h>
+#include <SPI.h>
 #include "SDhandler.h"
 
-SDhandler::SDhandler(int pin)
+SDhandler::SDhandler()
 {
-	//SD.begin(pin);
 }
+
+void SDhandler::Begin(int pin)
+{
+	SD.begin(pin);
+}
+
+
 
 void SDhandler::ReadFromCard(String fileName)//Bør denne returnere en linje som string eller håndtere hele serialdumpingen?
 {
-	file = SD.open(fileName, FILE_WRITE);
+	file = SD.open(fileName, FILE_READ);
 	while (file.available())
 	{
 		Serial.write(file.read());
