@@ -13,7 +13,6 @@ class RTChandler
 		void AdjustClock(String inputString);
 
 	private:
-		RTChandler();
 		RTC_DS1307 rtc;
 		
 };

@@ -1,8 +1,10 @@
+#include "Arduino.h"
+#include <RTClib.h>	
 #include "RTChandler.h"
 
 RTChandler::RTChandler()
 {
-	rtc.begin();
+	//rtc.begin();
 }
 
 String RTChandler::GetTheDate()
