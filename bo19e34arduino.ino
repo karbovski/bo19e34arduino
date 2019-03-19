@@ -7,6 +7,8 @@
 #define FileName  "fil.txt"
 #define ConfigFile "config.txt"
 
+/* test dominik */
+
 const int PULSE_PIN = 4;		
 const int SD_PIN = 10;
 const int BUTTON_PIN = 2;
