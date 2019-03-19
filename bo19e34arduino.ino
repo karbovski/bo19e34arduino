@@ -14,6 +14,7 @@ const int BUTTON_PIN = 2;
 unsigned long startTime;	//Variabler som brukes i måling
 unsigned long currentTime;
 unsigned int count;
+unsigned int measureTime;
 
 RTChandler rtchandler;
 SDhandler sdhandler;
@@ -56,7 +57,7 @@ void loop() {
 	if (digitalRead(BUTTON_PIN) == HIGH)
 	{
 		Serial.println("ButtonClicked");
-		String result = measure(10000);
+		String result = measure(measureTime);
 		Serial.println(result);
 		sdhandler.WriteToCard( result, FileName);
 	}
@@ -65,8 +66,7 @@ void loop() {
 
 String measure(unsigned int time)// måler i 'time' antall sekunder og returnerer
 {
-	startTime = millis();
-	currentTime = startTime;
+	currentTime = startTime = millis();
 	count = 0;
 	unsigned long duration;
 	String ret = rtchandler.GetTheDate();
