@@ -13,6 +13,7 @@ class SDhandler
 		void Begin(int pin);
 		void ReadFromCard(String fileName);
 		void WriteToCard(String string,String filename);
+		void EraseFile(String fileName);
 	private:
 		File file;
 

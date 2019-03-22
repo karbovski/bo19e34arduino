@@ -13,9 +13,7 @@ const int PULSE_PIN = 4;
 const int SD_PIN = 10;
 const int BUTTON_PIN = 2;
 
-unsigned long startTime;	//Variabler som brukes i måling
-unsigned long currentTime;
-unsigned int count;
+//Variabler som brukes i måling
 unsigned int measureTime;
 
 RTChandler rtchandler;
@@ -38,7 +36,7 @@ void setup() {
 
 	Serial.begin(9600);
 	sdhandler.Begin(SD_PIN);
-
+	measureTime = 10000;
 	pinMode(PULSE_PIN, INPUT);
 	pinMode(SD_PIN, OUTPUT);
 	pinMode(BUTTON_PIN, INPUT);
@@ -49,16 +47,26 @@ void loop() {
 	if (Serial.available() > 0)
 	{
 		String inputString = Serial.readStringUntil('#');
-		Serial.println(inputString);
+		//Serial.println(inputString);
 		char command = inputString.charAt(0);
-		if (command == 'r') sdhandler.ReadFromCard(FileName);
-		else if (command == 'e') SD.remove(FileName); // e# sletter SD kort filen
+		if (command == 'r')
+		{
+			Serial.println("Reading SD");
+			sdhandler.ReadFromCard(FileName);
+			Serial.println("Done");
+		}
+		else if (command == 'e')
+		{
+			Serial.println("Erasing file");
+			sdhandler.EraseFile(FileName);
+			Serial.println("Done");
+		}
 		else if (command == 'c') rtchandler.AdjustClock(inputString); // c20190219120800# gir 19.02.1997 12:09:00
 	}
 
 	if (digitalRead(BUTTON_PIN) == HIGH)
 	{
-		Serial.println("ButtonClicked");
+		Serial.println("Measuring: ");
 		String result = measure(measureTime);
 		Serial.println(result);
 		sdhandler.WriteToCard( result, FileName);
@@ -68,8 +76,9 @@ void loop() {
 
 String measure(unsigned int time)// måler i 'time' antall sekunder og returnerer
 {
-	currentTime = startTime = millis();
-	count = 0;
+	unsigned long startTime = millis();
+	unsigned long currentTime = startTime;
+	unsigned long count = 0;
 	unsigned long duration;
 	String ret = rtchandler.GetTheDate();
 	
@@ -83,7 +92,7 @@ String measure(unsigned int time)// måler i 'time' antall sekunder og returnerer
 		currentTime = millis();
 	} while ((unsigned long)(currentTime-startTime) <= time);
 
-	return ret + ": " + count + ": " + startTime +": " + millis();
+	return ret + ": " + count + ": " + (currentTime - startTime);
 }
 
 

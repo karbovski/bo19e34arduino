@@ -16,12 +16,15 @@ void SDhandler::Begin(int pin)
 
 void SDhandler::ReadFromCard(String fileName)//Bør denne returnere en linje som string eller håndtere hele serialdumpingen?
 {
-	file = SD.open(fileName, FILE_READ);
-	while (file.available())
+	if (SD.exists(fileName))
 	{
-		Serial.write(file.read());
+		file = SD.open(fileName, FILE_READ);
+		while (file.available())
+		{
+			Serial.write(file.read());
+		}
+		file.close();
 	}
-	file.close();
 }
 
 void SDhandler::WriteToCard(String string, String fileName)
@@ -30,4 +33,13 @@ void SDhandler::WriteToCard(String string, String fileName)
 	file = SD.open(fileName, FILE_WRITE);
 	file.println(string);
 	file.close();
+}
+
+
+void SDhandler::EraseFile(String fileName)
+{
+	if(SD.exists(fileName))
+	{
+		SD.remove(FileName);
+	}
 }
