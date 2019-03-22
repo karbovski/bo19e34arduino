@@ -11,7 +11,7 @@ String RTChandler::GetTheDate()
 {
 	String string("");
 	DateTime now = rtc.now();
-	string += now.day();
+	string += now.day;
 	string += '/';
 	string += now.month();
 	string += '/';
@@ -25,6 +25,7 @@ String RTChandler::GetTheDate()
 	return string;
 }
 
+// c20190219120800# gir 19.02.1997 12:09:00
 void RTChandler::AdjustClock(String inputString)
 {	
 	int year = inputString.substring(1, 5).toInt();
@@ -35,5 +36,3 @@ void RTChandler::AdjustClock(String inputString)
 	int second = inputString.substring(13, 15).toInt();
 	rtc.adjust(DateTime(year, month, date, hour, minute, second));
 }
-
-

@@ -7,8 +7,6 @@
 #define FileName  "fil.txt"
 #define ConfigFile "config.txt"
 
-/* test dominik */
-
 const int PULSE_PIN = 4;		
 const int SD_PIN = 10;
 const int BUTTON_PIN = 2;
@@ -26,15 +24,12 @@ SDhandler sdhandler;
 		DO ->	pin 12
 		DI ->	pin 11
 		CS ->	pin 10
-					
 	RTC				
 		SCL ->	A5	
 		SDA ->	A4	
-
 */
 
 void setup() {
-
 	Serial.begin(9600);
 	sdhandler.Begin(SD_PIN);
 
@@ -60,12 +55,12 @@ void loop() {
 		Serial.println("ButtonClicked");
 		String result = measure(10000);
 		Serial.println(result);
-		sdhandler.WriteToCard( result, FileName);
+		sdhandler.WriteToCard(result, FileName);
 	}
-	
 }
 
-String measure(unsigned int time)// måler i 'time' antall sekunder og returnerer
+// måler i 'time' antall sekunder og returnerer
+String measure(unsigned int time)
 {
 	startTime = millis();
 	currentTime = startTime;
@@ -85,6 +80,3 @@ String measure(unsigned int time)// måler i 'time' antall sekunder og returnerer
 
 	return ret + ": " + count + ": " + startTime +": " + millis();
 }
-
-
-

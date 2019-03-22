@@ -1,4 +1,3 @@
-//pragma once
 #ifndef SDhandler_h
 #define SDhandler_h
 
@@ -13,9 +12,9 @@ class SDhandler
 		void Begin(int pin);
 		void ReadFromCard(String fileName);
 		void WriteToCard(String string,String filename);
+
 	private:
 		File file;
-
 };
 
 #endif SDhandler_h
