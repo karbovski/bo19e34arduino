@@ -1,4 +1,3 @@
-#pragma once
 #ifndef RTChandler_h
 #define RTChandler_h
 
@@ -13,10 +12,7 @@ class RTChandler
 		void AdjustClock(String inputString);
 
 	private:
-		RTC_DS1307 rtc;
-		
+		RTC_DS1307 rtc;	
 };
-
-
 
 #endif RTChandler_h

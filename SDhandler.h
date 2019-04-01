@@ -1,4 +1,3 @@
-//pragma once
 #ifndef SDhandler_h
 #define SDhandler_h
 
@@ -20,7 +19,6 @@ class SDhandler
 		void EraseFile(String fileName);
 	private:
 		File file;
-
 };
 
 #endif SDhandler_h
