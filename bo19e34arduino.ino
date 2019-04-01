@@ -43,7 +43,6 @@ void loop() {
 	if (Serial.available() > 0)
 	{
 		String inputString = Serial.readStringUntil('#');
-		//Serial.println(inputString);
 		char command = inputString.charAt(0);
 		if (command == 'r')
 		{
