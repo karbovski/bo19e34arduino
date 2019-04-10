@@ -27,12 +27,18 @@
     <ClInclude Include="SDhandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LCDhandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RTChandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SDhandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LCDhandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

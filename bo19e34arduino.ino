@@ -1,3 +1,5 @@
+#include <U8x8lib.h>
+#include <U8g2lib.h>
 #include <RTClib.h>	
 #include <SPI.h>
 #include <SD.h>
@@ -27,6 +29,14 @@ SDhandler sdhandler;
 	RTC				
 		SCL ->	A5	
 		SDA ->	A4	
+
+	LCD
+
+#define CLOCK 13
+#define DATA 12
+#define CS 11
+#define DC 10
+#define RESET 9
 */
 
 void setup() {
