@@ -11,7 +11,7 @@ String RTChandler::GetTheDate()
 {
 	String string("");
 	DateTime now = rtc.now();
-	string += now.day;
+	string += now.day();
 	string += '/';
 	string += now.month();
 	string += '/';

@@ -12,6 +12,7 @@
 const int PULSE_PIN = 4;		
 const int SD_PIN = 10;
 const int BUTTON_PIN = 2;
+const int LED=5;
 
 //Variabler som brukes i måling
 unsigned int interval;
@@ -40,7 +41,8 @@ SDhandler sdhandler;
 */
 
 void setup() {
-	Serial.begin(9600);
+	Serial.begin(115200);
+	pinMode(LED, OUTPUT);
 	sdhandler.Begin(SD_PIN);
 	initializeConfig();
 	pinMode(PULSE_PIN, INPUT);
@@ -88,12 +90,14 @@ void loop() {
 	}
 }
 
-void measure()// måler i 'time' antall sekunder og returnerer
+void measure()
 {
-	String ret = rtchandler.GetTheDate();
-	sdhandler.WriteToCard("#START"+ ret+"#",FileName);
-	sdhandler.WriteToCard("Interval: " + String(interval) + " Number of intervals: " +  String(numberOfIntervals),FileName);
-	sdhandler.WriteToCard("#DATA#",FileName);
+	String time = rtchandler.GetTheDate();
+	sdhandler.WriteToCard("#START#",FileName);
+	sdhandler.WriteToCard(time,FileName);
+	sdhandler.WriteToCard(String(interval),FileName);
+	sdhandler.WriteToCard(String(numberOfIntervals),FileName);
+	digitalWrite(LED, HIGH);
 	for (int i = 0; i < numberOfIntervals; i++)
 	{
 		unsigned long startTime = millis();
@@ -111,9 +115,7 @@ void measure()// måler i 'time' antall sekunder og returnerer
 		} while ((unsigned long)(currentTime - startTime) <= interval);
 		sdhandler.WriteToCard(String(count), FileName);
 	}
-	sdhandler.WriteToCard("#/DATA#", FileName);
-	ret = rtchandler.GetTheDate();
-	sdhandler.WriteToCard("#STOP" + ret + "#", FileName);
+	digitalWrite(LED, LOW);
 }
 
 void initializeConfig()

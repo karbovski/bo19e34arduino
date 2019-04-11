@@ -28,7 +28,7 @@ void SDhandler::ReadFromCard(String fileName)
 	}
 }
 
-void SDhandler::ChangeConfig(String config,String fileName) // s42949672954294967295# , 4,294,967,295 ms, 4,294,967,295 ganger
+void SDhandler::ChangeConfig(String config,String fileName) // s1000010000# , 10000 ms, 10000 ganger
 {
 	if (SD.exists(fileName)) 
 		SD.remove(fileName);
